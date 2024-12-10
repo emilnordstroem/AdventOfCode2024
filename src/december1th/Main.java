@@ -9,8 +9,11 @@ public class Main {
     private static ArrayList<Integer> firstInputArrayList = new ArrayList<>();
     private static ArrayList<Integer> secondInputArrayList = new ArrayList<>();
     private static ArrayList<Integer> differenceArrayList = new ArrayList<>();
+    private static ArrayList<Integer> occurrenceArrayList = new ArrayList<>();
 
     public static void main(String[] args) throws FileNotFoundException {
+        //===============================================================
+        // Part one
         firstInputArrayList = readFileObject("src/december1th/firstInputList.txt");
         insertionSortAlgorithm(firstInputArrayList);
 
@@ -20,7 +23,12 @@ public class Main {
         differenceArrayList = comparisonDifference(firstInputArrayList, secondInputArrayList);
         System.out.println(differenceArrayList);
 
-        System.out.println(totalDifference());
+        System.out.println(total(differenceArrayList));
+
+        //===============================================================
+        // Part two
+        occurrenceArrayList = similarityBetweenElements(firstInputArrayList, secondInputArrayList);
+        System.out.println(total(occurrenceArrayList));
     }
 
     private static ArrayList<Integer> readFileObject(String pathname) throws FileNotFoundException {
@@ -65,11 +73,28 @@ public class Main {
         return differenceArrayList;
     }
 
-    private static int totalDifference(){
+    private static int total(ArrayList<Integer> arrayList){
         int result = 0;
-        for(Integer difference : differenceArrayList){
-            result += difference;
+        for(Integer number : arrayList){
+            result += number;
         }
         return result;
+    }
+
+    private static ArrayList<Integer> similarityBetweenElements(ArrayList<Integer> firstArrayList, ArrayList<Integer> secondArrayList){
+        ArrayList<Integer> resultArrayList = new ArrayList<>();
+
+        for(Integer number : firstArrayList){
+            int currentNumber = number;
+            int occurrence = 0;
+            for(Integer candidateNumber : secondArrayList){
+                if(candidateNumber == currentNumber){
+                    occurrence++;
+                }
+            }
+            resultArrayList.add(currentNumber * occurrence);
+        }
+
+        return resultArrayList;
     }
 }
