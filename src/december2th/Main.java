@@ -28,6 +28,22 @@ public class Main {
     private static boolean isReportSafe(String[] report){
         ArrayList<Integer> currentReport = StringArrayToIntegerArray(report);
 
+        if(checkReportSafety(currentReport)){
+            // If report is already safe...
+            return true;
+        }
+
+        for (int index = 0; index < currentReport.size(); index++) {
+            ArrayList<Integer> copiedCurrentReport = new ArrayList<>(currentReport);
+            copiedCurrentReport.remove(index);
+            if (checkReportSafety(copiedCurrentReport)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static Boolean checkReportSafety(ArrayList<Integer> currentReport){
         boolean isDescending = false;
         boolean isAscending = false;
 
@@ -36,7 +52,7 @@ public class Main {
             int current = currentReport.get(index);
             // Check difference
             int difference = Math.abs(current - previous);
-            if (difference <= 0 || difference > 3) {
+            if (difference == 0 || difference > 3) {
                 return false;
             }
             // Check ascending or descending
